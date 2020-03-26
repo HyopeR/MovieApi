@@ -4,6 +4,54 @@ const router = express.Router();
 // Models
 const Director = require('../models/Director');
 
+router.get('/', (req, res) => {
+  const promise = Director.aggregate([
+    {
+      $lookup: {
+        from: 'movies',
+        localField: '_id',
+        foreignField: 'director_id',
+        as: 'director_movies'
+      }
+    },
+    {
+      $unwind: {
+        path: '$director_movies',
+        // Joinlenmeyen directorları gösterme.
+        preserveNullAndEmptyArrays: true,
+
+      }
+    },
+    {
+      $group: {
+        _id: {
+          _id: '$_id',
+          name: '$name',
+          surname: '$surname',
+          bio: '$bio',
+        },
+        director_movies: {
+          $push: '$director_movies'
+        }
+      }
+    },
+    {
+      $project: {
+        _id: '$_id._id',
+        name: '$_id.name',
+        surname: '$_id.surname',
+        director_movies: '$director_movies'
+      }
+    }
+  ]);
+
+  promise.then((data) => {
+    res.json(data);
+  }).catch((error) => {
+    res.json(error);
+  });
+});
+
 router.post('/', (req, res) => {
   const director = new Director(req.body);
   const promise = director.save();
