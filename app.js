@@ -13,6 +13,10 @@ const app = express();
 // db connection -> sonuna () açılarak moduldeki fonksiyonu çalıştırdık.
 const db = require('./helper/db.js')();
 
+// config
+const config = require('./config');
+app.set('api_secret_key', config.api_secret_key); //Global kullanıma izin verme.
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
