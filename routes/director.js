@@ -94,6 +94,7 @@ router.get('/:director_id', (req, res) => {
         _id: '$_id._id',
         name: '$_id.name',
         surname: '$_id.surname',
+        bio: '#_id.bio',
         director_movies: '$director_movies'
       }
     }
@@ -130,7 +131,9 @@ router.delete('/:director_id', (req, res, next) => {
   promise.then((director) => {
     if(!director)
       next({ message: 'The director was not found.' });
-    res.json(director);
+    res.json({
+      status: 1
+    });
   }).catch((error) => {
     res.json(error);
   });
