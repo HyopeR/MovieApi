@@ -74,7 +74,9 @@ router.delete('/:movie_id', (req, res, next) => {
   promise.then((movie) => {
     if(!movie)
       next({ message: 'The movie was not found.' });
-    res.json(movie);
+    res.json({
+      status: 1
+    });
   }).catch((error) => {
     res.json(error);
   });
