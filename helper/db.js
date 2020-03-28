@@ -6,8 +6,8 @@ module.exports = () => {
         //useMongoClient: true,
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useFindAndModify: true,
-        useCreateIndex: true
+        useFindAndModify: false,
+        useCreateIndex: true,
       });
   mongoose.connection.on('open', () => {
     //console.log('MongoDB: Connected.');
